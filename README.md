@@ -1,4 +1,4 @@
-이미지검색 어플리케이션
+유저검색 어플리케이션
 ===================
 
 Uses ViewModels and LiveData from Architecture Components
@@ -8,7 +8,7 @@ and the Data Binding library with an MVVM architecture.
 API
 ---
 
-- Kakao 이미지검색 API
+- Github API
 
 Libraries
 ---------
