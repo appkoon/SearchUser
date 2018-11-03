@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.appkoon.searchuser.api.Status" />
+
+        <variable name="viewModel"
+            type="com.appkoon.searchuser.viewmodel.SearchViewModel" />
+        <variable
+            name="callback"
+            type="com.appkoon.searchuser.ui.search.RetryCallback" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/default_margin">
+
+        <ProgressBar
+            android:id="@+id/progress_search"
+            style="?android:attr/progressBarStyle"
+            app:visibleGone="@{viewModel.status == Status.LOADING &amp;&amp; viewModel.dataCount == 0}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp" />
+
+        <Button
+            android:id="@+id/retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry"
+            android:onClick="@{() -> callback.retry()}"
+            app:visibleGone="@{viewModel.status == Status.ERROR}"
+            />
+
+        <TextView
+            android:id="@+id/text_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.errorText}"
+            app:visibleGone="@{viewModel.status == Status.ERROR}"
+            />
+
+    </LinearLayout>
+
+</layout>

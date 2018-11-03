@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Search User</string>
+    <string name="search_hint">검색어 입력</string>
+    <string name="retry">재검색</string>
+    <string name="empty_search_result"><b>%s</b> 검색결과가 없습니다.</string>
+    <string name="search_title">유저검색</string>
+    <string name="search_result">유저검색 (검색어 : %s)</string>
+    <string name="like_menu">Like</string>
+
+</resources>
