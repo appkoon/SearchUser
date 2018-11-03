@@ -15,7 +15,7 @@ class ApiRequest {
             single.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ tResponse: Response<T> ->
-                                    if (tResponse.isSuccessful) listener.onSuccess(tResponse.body()!!)
+                                    if (tResponse.isSuccessful) listener.onSuccess(tResponse.body()!!, tResponse.raw())
                                     else listener.onServerError(tResponse.errorBody().toString())
                                 }, listener::onError)
         }

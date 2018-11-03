@@ -1,12 +1,10 @@
 package com.appkoon.searchuser.repository
 
-import android.util.Log
 import com.appkoon.searchuser.api.GithubService
 import com.appkoon.searchuser.model.dao.ItemDao
 import com.appkoon.searchuser.model.vo.Document
 import com.appkoon.searchuser.model.vo.Item
 import io.reactivex.Flowable
-import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
@@ -14,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SearchRepository @Inject constructor(private val githubService: GithubService, private val itemDao: ItemDao) {
+class Repository @Inject constructor(private val githubService: GithubService, private val itemDao: ItemDao) {
 
     fun search(query: String, page: Int) : Single<Response<Document>> = githubService.searchImages(query, page)
 

@@ -66,10 +66,13 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.menu_like -> fireAction(Action(ActionType.DETAIL_IMAGE))
+        return when(item.itemId) {
+            R.id.menu_like -> {
+                fireAction(Action(ActionType.DETAIL_IMAGE))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-        return true
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector

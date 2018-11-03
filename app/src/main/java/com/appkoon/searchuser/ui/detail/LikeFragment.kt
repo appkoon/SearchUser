@@ -32,11 +32,11 @@ class LikeFragment : Fragment(), Injectable {
     private lateinit var viewModel: LikeViewModel
     private val userAdapter = UserAdapter()
 
-    private var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
 
     companion object {
         fun newInstance(): LikeFragment = LikeFragment()
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,44 +45,48 @@ class LikeFragment : Fragment(), Injectable {
         viewModel.itemLiveData.observe(this, Observer(::setList) )
     }
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_like, container, false, dataBindingComponent)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_like, container, false)
         return binding.root
     }
+
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         (activity as MainActivity).supportActionBar?.let{
             it.setDisplayShowTitleEnabled(true)
             it.setDisplayHomeAsUpEnabled(true)
-            setHasOptionsMenu(true)
-            it.title = "Like 목록"
+            it.title = getString(R.string.like_title)
         }
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = userAdapter
-//        arguments?.getParcelable<Item>(KEY_DATA)?.let { document ->
-//            binding.document = document
-//        }
-
     }
+
 
     private fun setList(data: List<Item>?) {
-        Log.d("good", "setList = $data")
-        userAdapter.setData(data!!, true)
+        if( userAdapter.itemCount == 0){
+            userAdapter.setData(data!!.toList())
+        }
     }
 
+
     private fun onItemClicked(item: Item, position: Int) {
+        Log.d("good", "position = $position")
         viewModel.delete(item)
         userAdapter.checkUnlike(position)
         SearchFragment.instance?.itemSubject?.onNext(item)
     }
 
+
     override fun onPrepareOptionsMenu(menu: Menu) {
         val item= menu.findItem(R.id.menu_like)
         item.isVisible = false
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -93,4 +97,5 @@ class LikeFragment : Fragment(), Injectable {
                     else -> super.onOptionsItemSelected(item)
         }
     }
+
 }

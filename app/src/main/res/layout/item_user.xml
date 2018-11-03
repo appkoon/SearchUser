@@ -68,7 +68,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textUser"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/star_big_off" />
+                app:srcCompat="@android:drawable/star_big_on" />
 
         </android.support.constraint.ConstraintLayout>
 
