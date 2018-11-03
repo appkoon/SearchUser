@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Search User</string>
+    <string name="app_name">유저검색</string>
     <string name="search_hint">검색어 입력</string>
     <string name="retry">재검색</string>
     <string name="empty_search_result"><b>%s</b> 검색결과가 없습니다.</string>
