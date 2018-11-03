@@ -1,4 +1,4 @@
-package com.appkoon.searchuser.model.vo
+package com.appkoon.searchuser.vo
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey

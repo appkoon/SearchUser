@@ -1,4 +1,4 @@
-package com.appkoon.searchuser.viewmodel
+package com.appkoon.searchuser.ui.search
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.LiveData
@@ -13,8 +13,8 @@ import com.appkoon.searchuser.api.ApiResponse
 import com.appkoon.searchuser.api.Error
 import com.appkoon.searchuser.api.Status
 import com.appkoon.searchuser.repository.Repository
-import com.appkoon.searchuser.model.vo.Document
-import com.appkoon.searchuser.model.vo.Item
+import com.appkoon.searchuser.vo.Document
+import com.appkoon.searchuser.vo.Item
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Response
@@ -28,10 +28,9 @@ import javax.inject.Singleton
 @Singleton
 open class SearchViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-
     private var page = 1
     var query = ""
-    val delayTime = 1000L
+    val delayTime = 500L
     private var totalCount = 0
 
     val messageLiveData: LiveData<String> by lazy { MutableLiveData<String>() }
@@ -59,7 +58,6 @@ open class SearchViewModel @Inject constructor(private val repository: Repositor
                 override fun onSuccess(data: Document, response: Response) {
                     totalCount = data.total_count
                     dataCount.set(dataCount.get() + data.items.size)
-                    Log.d("good", "totalCount = ${data.total_count} dataCount = ${dataCount.get()}")
                     setStatus(Status.SUCCESS)
                     Handler().postDelayed({
                         (responseLiveData as MutableLiveData<*>).value = repository.checkLike(data.items)
@@ -79,25 +77,20 @@ open class SearchViewModel @Inject constructor(private val repository: Repositor
                 }
             })
         }
-
     }
-
 
     fun searchNextPage() {
         search(query, false)
     }
 
-
     fun retry() {
         search(query, true)
     }
-
 
     private fun setStatus(status: Status, message: String? = null){
         this.status.set(status)
         if (message != null) this.errorText.set(message)
     }
-
 
     @SuppressLint("CheckResult")
     fun insert(item: Item) {

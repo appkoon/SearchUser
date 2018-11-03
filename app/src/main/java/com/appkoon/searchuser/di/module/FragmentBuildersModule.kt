@@ -1,6 +1,6 @@
 package com.appkoon.searchuser.di.module
 
-import com.appkoon.searchuser.ui.detail.LikeFragment
+import com.appkoon.searchuser.ui.like.LikeFragment
 import com.appkoon.searchuser.ui.search.SearchFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -10,7 +10,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
-    abstract fun contributeDetailFragment(): LikeFragment
+    abstract fun contributeLikeFragment(): LikeFragment
 
     @ContributesAndroidInjector
     abstract fun contributeSearchFragment(): SearchFragment

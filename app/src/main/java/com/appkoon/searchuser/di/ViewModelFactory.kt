@@ -1,4 +1,4 @@
-package com.appkoon.searchuser.viewmodel
+package com.appkoon.searchuser.di
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
@@ -7,7 +7,7 @@ import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
-class AppViewModelFactory
+class ViewModelFactory
 @Inject constructor(private val creators: Map<Class<out ViewModel>,
         @JvmSuppressWildcards Provider<ViewModel>>) : ViewModelProvider.Factory {
 

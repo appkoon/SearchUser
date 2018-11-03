@@ -1,4 +1,4 @@
-package com.appkoon.searchuser.ui
+package com.appkoon.searchuser.common
 
 import android.os.Bundle
 import java.util.*
@@ -21,11 +21,10 @@ class ActionManager private constructor(){
     }
 }
 
-
 data class Action(val type: ActionType, val data: Bundle? = null)
 
 enum class ActionType {
     UNKNOWN,
-    SEARCH_IMAGE,
-    DETAIL_IMAGE
+    SEARCH_USER,
+    LIKE_USER
 }

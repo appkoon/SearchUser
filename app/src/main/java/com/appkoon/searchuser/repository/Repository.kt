@@ -1,9 +1,9 @@
 package com.appkoon.searchuser.repository
 
 import com.appkoon.searchuser.api.GithubService
-import com.appkoon.searchuser.model.dao.ItemDao
-import com.appkoon.searchuser.model.vo.Document
-import com.appkoon.searchuser.model.vo.Item
+import com.appkoon.searchuser.database.ItemDao
+import com.appkoon.searchuser.vo.Document
+import com.appkoon.searchuser.vo.Item
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -22,11 +22,10 @@ class Repository @Inject constructor(private val githubService: GithubService, p
                    .subscribeOn(Schedulers.io())
                    .subscribe({ (if (it > 0) item.like = true) }, { item.like = false})
         }
-
         return items
     }
 
-    fun getAllItem() : Flowable<List<Item>> = itemDao.getAllItem()
+    fun getAll() : Flowable<List<Item>> = itemDao.getAllItem()
 
     fun insert(item: Item) {
         itemDao.insert(item)

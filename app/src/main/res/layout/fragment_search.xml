@@ -9,11 +9,11 @@
         <variable name="loadingMore" type="boolean" />
 
         <variable name="viewModel"
-                  type="com.appkoon.searchuser.viewmodel.SearchViewModel" />
+                  type="com.appkoon.searchuser.ui.search.SearchViewModel" />
 
         <variable
             name="callback"
-            type="com.appkoon.searchuser.ui.search.RetryCallback" />
+            type="com.appkoon.searchuser.common.RetryCallback" />
 
     </data>
 

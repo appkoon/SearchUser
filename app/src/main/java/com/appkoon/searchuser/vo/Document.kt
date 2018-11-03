@@ -1,4 +1,4 @@
-package com.appkoon.searchuser.model.vo
+package com.appkoon.searchuser.vo
 
 data class Document(
         val total_count: Int,

@@ -1,6 +1,6 @@
 package com.appkoon.searchuser.api
 
-import com.appkoon.searchuser.model.vo.Document
+import com.appkoon.searchuser.vo.Document
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.GET

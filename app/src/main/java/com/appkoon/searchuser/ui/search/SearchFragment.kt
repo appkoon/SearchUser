@@ -18,13 +18,12 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.appkoon.searchuser.R
-import com.appkoon.searchuser.api.Status
 import com.appkoon.searchuser.databinding.FragmentSearchBinding
 import com.appkoon.searchuser.di.Injectable
-import com.appkoon.searchuser.ui.ActionManager
+import com.appkoon.searchuser.ui.common.ItemAdapter
 import com.appkoon.searchuser.ui.MainActivity
-import com.appkoon.searchuser.viewmodel.SearchViewModel
-import com.appkoon.searchuser.model.vo.Item
+import com.appkoon.searchuser.common.RetryCallback
+import com.appkoon.searchuser.vo.Item
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -42,7 +41,7 @@ class SearchFragment : Fragment(), Injectable {
     }
 
     private lateinit var title: String
-    private var userAdapter = UserAdapter()
+    private var itemAdapter = ItemAdapter()
     lateinit var binding: FragmentSearchBinding
     val itemSubject: PublishSubject<Item> = PublishSubject.create<Item>()
 
@@ -52,11 +51,9 @@ class SearchFragment : Fragment(), Injectable {
         fun newInstance(): SearchFragment = SearchFragment()
     }
 
-
     init {
-        itemSubject.subscribe{ userAdapter.checkUnlike(it) }
+        itemSubject.subscribe{ itemAdapter.checkUnlike(it) }
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -67,16 +64,14 @@ class SearchFragment : Fragment(), Injectable {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         instance = this
         title = getString(R.string.search_title)
-        userAdapter.onListItemClickListener = ::onItemClicked
+        itemAdapter.onListItemClickListener = ::onItemClicked
         viewModel.responseLiveData.observe(this, Observer<List<Item>>(::onChanged))
         viewModel.messageLiveData.observe(this, Observer<String>(::onChanged))
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d("good", "onCreateView")
@@ -84,7 +79,6 @@ class SearchFragment : Fragment(), Injectable {
         binding.viewModel = viewModel
         return binding.root
     }
-
 
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -97,7 +91,7 @@ class SearchFragment : Fragment(), Injectable {
                 .subscribe { it ->
                     if (it.isNotEmpty()) {
                        dismissKeyboard()
-                       userAdapter.clear()
+                       itemAdapter.clear()
                        viewModel.search(it, true)
                        (activity as MainActivity).supportActionBar?.let{ bar ->
                            title = String.format(getString(R.string.search_result), it)
@@ -117,7 +111,7 @@ class SearchFragment : Fragment(), Injectable {
     private fun initRecyclerView() {
         with(recyclerView) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = userAdapter
+            adapter = itemAdapter
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
@@ -132,27 +126,23 @@ class SearchFragment : Fragment(), Injectable {
         }
     }
 
-
     private fun onChanged(data: Any?) {
         binding.loadingMore = false
         when (data) {
             is String -> Snackbar.make(recyclerView, data, Snackbar.LENGTH_SHORT).show()
-            is List<*> -> userAdapter.setData(data as List<Item>)
+            is List<*> -> itemAdapter.setData(data as List<Item>)
         }
     }
 
-
     private fun onItemClicked(item: Item, position: Int) {
         viewModel.insert(item)
-        userAdapter.checkLike(position)
+        itemAdapter.checkLike(position)
     }
-
 
     private fun dismissKeyboard() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         imm?.hideSoftInputFromWindow(edit_query.windowToken, 0)
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

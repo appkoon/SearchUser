@@ -1,9 +1,10 @@
-package com.appkoon.searchuser.viewmodel
+package com.appkoon.searchuser.ui.like
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.appkoon.searchuser.model.vo.Item
+import android.databinding.ObservableField
+import com.appkoon.searchuser.vo.Item
 import com.appkoon.searchuser.repository.Repository
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,17 +14,15 @@ import javax.inject.Inject
 @SuppressLint("CheckResult")
 class LikeViewModel @Inject constructor(private val repository: Repository): ViewModel() {
 
-
-    private val items = repository.getAllItem()
-    val itemLiveData = MutableLiveData<List<Item>>()
-
+    private val itemsObservable = repository.getAll()
+    val items = ObservableField<List<Item>>(listOf())
 
     init{
-        items.subscribeOn(Schedulers.io())
+        itemsObservable.subscribeOn(Schedulers.io())
              .observeOn(AndroidSchedulers.mainThread())
-             .subscribe { items ->
-                 items.forEach { it.like = false }
-                 itemLiveData.value = items
+             .subscribe { datas ->
+                 datas.forEach { it.like = false }
+                 items.set(datas)
              }
     }
 

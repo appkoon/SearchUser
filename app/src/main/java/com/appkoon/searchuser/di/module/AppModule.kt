@@ -3,9 +3,9 @@ package com.appkoon.searchuser.di.module
 import android.app.Application
 import android.arch.persistence.room.Room
 import android.content.Context
-import com.appkoon.searchuser.model.AppDataBase
-import com.appkoon.searchuser.model.dao.ItemDao
-import com.appkoon.searchuser.ui.ActionManager
+import com.appkoon.searchuser.database.AppDataBase
+import com.appkoon.searchuser.database.ItemDao
+import com.appkoon.searchuser.common.ActionManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

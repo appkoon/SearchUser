@@ -2,7 +2,11 @@
 <layout  xmlns:android="http://schemas.android.com/apk/res/android"
          xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-
+        <variable name="viewModel"
+            type="com.appkoon.searchuser.ui.like.LikeViewModel" />
+        <variable
+            name="adapter"
+            type="com.appkoon.searchuser.ui.common.ItemAdapter"/>
     </data>
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
@@ -16,7 +20,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:visibility="visible"
+        android:adapter="@{adapter}"
+        app:setItemLike="@{viewModel.items}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -2,10 +2,10 @@ package com.appkoon.searchuser.di.module
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.appkoon.searchuser.viewmodel.AppViewModelFactory
+import com.appkoon.searchuser.di.ViewModelFactory
 import com.appkoon.searchuser.di.ViewModelKey
-import com.appkoon.searchuser.viewmodel.LikeViewModel
-import com.appkoon.searchuser.viewmodel.SearchViewModel
+import com.appkoon.searchuser.ui.like.LikeViewModel
+import com.appkoon.searchuser.ui.search.SearchViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -25,5 +25,5 @@ abstract class ViewModelModule {
     abstract fun bindLikeViewModel(likeViewModel: LikeViewModel): ViewModel
 
     @Binds
-    abstract fun bindViewModelFactory(factory: AppViewModelFactory): ViewModelProvider.Factory
+    abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }

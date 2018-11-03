@@ -1,7 +1,7 @@
-package com.appkoon.searchuser.model.dao
+package com.appkoon.searchuser.database
 
 import android.arch.persistence.room.*
-import com.appkoon.searchuser.model.vo.Item
+import com.appkoon.searchuser.vo.Item
 import io.reactivex.Flowable
 import io.reactivex.Single
 

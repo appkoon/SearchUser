@@ -1,19 +1,19 @@
-package com.appkoon.searchuser.ui.search
+package com.appkoon.searchuser.ui.common
 
 import android.content.Context
+import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import com.appkoon.searchuser.R
-import com.appkoon.searchuser.model.vo.Item
-import com.bumptech.glide.Glide
+import com.appkoon.searchuser.databinding.ItemUserBinding
+import com.appkoon.searchuser.vo.Item
 import kotlinx.android.synthetic.main.item_user.view.*
 
 
-class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class ItemAdapter: RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     private val items = mutableListOf<Item>()
     private lateinit var context: Context
@@ -23,22 +23,16 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
         const val FADE_DURATION = 500L
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         context = parent.context
-        val view = LayoutInflater.from(context).inflate(R.layout.item_user, parent, false)
-        return UserViewHolder(view)
+        val binding: ItemUserBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.item_user, parent, false)
+        return ItemViewHolder(binding)
     }
-
 
     override fun getItemCount(): Int = items.size
 
-
-    override fun onBindViewHolder(viewHolder: UserViewHolder, position: Int) {
-        with(viewHolder.itemView) {
-            Glide.with(context).load(items[position].avatar_url).into(imageUser)
-            textUser.text = items[position].login
-            imageLike.visibility = if (items[position].like) View.VISIBLE else View.INVISIBLE
-        }
+    override fun onBindViewHolder(viewHolder: ItemViewHolder, position: Int) {
+        viewHolder.binding.item = items[position]
         setFadeAnimation(viewHolder.itemView)
     }
 
@@ -48,30 +42,25 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
         view.startAnimation(anim)
     }
 
-
     fun clear(){
         this.items.clear()
         notifyDataSetChanged()
     }
-
 
     fun setData(items: List<Item>) {
         this.items.addAll(items)
         notifyDataSetChanged()
     }
 
-
     fun checkLike(position: Int) {
         items[position].like = true
         notifyItemChanged(position)
     }
 
-
     fun checkUnlike(position: Int) {
         items.removeAt(position)
         notifyItemRemoved(position)
     }
-
 
     fun checkUnlike(data: Item) {
         val id = data.id
@@ -81,10 +70,9 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
         }
     }
 
-
-    inner class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ItemViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
-            with(view) {
+            with(binding.root) {
                 cardView.setOnClickListener { _ ->
                     onListItemClickListener?.let { it(items[adapterPosition], adapterPosition) }
                 }

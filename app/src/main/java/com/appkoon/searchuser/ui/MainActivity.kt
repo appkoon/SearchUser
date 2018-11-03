@@ -9,7 +9,10 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.appkoon.searchuser.R
-import com.appkoon.searchuser.ui.detail.LikeFragment
+import com.appkoon.searchuser.common.Action
+import com.appkoon.searchuser.common.ActionManager
+import com.appkoon.searchuser.common.ActionType
+import com.appkoon.searchuser.ui.like.LikeFragment
 import com.appkoon.searchuser.ui.search.SearchFragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -30,20 +33,22 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         toolbar.setTitleTextColor(Color.WHITE)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.apply {
+            setDisplayShowTitleEnabled(true)
+            setDisplayHomeAsUpEnabled(false)
+        }
         actionManager.onActionListener = ::fireAction
 
         if (supportFragmentManager.findFragmentById(R.id.container) == null) {
-            actionManager.fire(Action(ActionType.SEARCH_IMAGE))
+            actionManager.fire(Action(ActionType.SEARCH_USER))
         }
     }
 
     private fun fireAction(action: Action) {
         when (action.type) {
             ActionType.UNKNOWN -> Log.w(javaClass.simpleName, "Unknown Action Fired!")
-            ActionType.SEARCH_IMAGE -> transition(SearchFragment.newInstance(), replace = false)
-            ActionType.DETAIL_IMAGE -> transition(LikeFragment.newInstance(), replace = true)
+            ActionType.SEARCH_USER -> transition(SearchFragment.newInstance(), replace = false)
+            ActionType.LIKE_USER -> transition(LikeFragment.newInstance(), replace = true)
         }
     }
 
@@ -68,7 +73,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.menu_like -> {
-                fireAction(Action(ActionType.DETAIL_IMAGE))
+                fireAction(Action(ActionType.LIKE_USER))
                 true
             }
             else -> super.onOptionsItemSelected(item)

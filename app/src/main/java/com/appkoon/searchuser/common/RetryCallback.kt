@@ -1,4 +1,4 @@
-package com.appkoon.searchuser.ui.search
+package com.appkoon.searchuser.common
 
 interface RetryCallback {
     fun retry()
